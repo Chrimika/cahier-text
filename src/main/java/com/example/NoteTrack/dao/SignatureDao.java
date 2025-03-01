@@ -23,51 +23,60 @@ public class SignatureDao implements ISignatureDao {
     }
 
     @Override
-    public void ajouterSignature(Signature signature) {
-        String sql = "INSERT INTO " + table + " (professeurSignature  , dateSignatureProf, userId, seanceId) VALUES (?, ?, ? , ?)";
+    public boolean ajouterSignature(Signature signature) {
+        String sql = "INSERT INTO " + table + " (professeurSignature  , dateSignatureProf, userId, idSeance) VALUES (?, ?, ? , ?)";
 
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setBoolean(1, signature.isProfesseurSignature());
             stmt.setTimestamp(2, Timestamp.valueOf(signature.getDateSignatureProf()));
             stmt.setInt(3, signature.getUserId());
             stmt.setInt(4, signature.getSeanceId());
-            stmt.executeUpdate();
+            int row = stmt.executeUpdate();
+            return row > 0;
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return false;
+
     }
 
     @Override
-    public void modifierSignature(Signature signature) {
-        String sql = "UPDATE " + table + " SET professeurSignature = ? ,  dateSignatureProf = ?, userId = ?, seanceId = ? WHERE id = ?";
+    public boolean modifierSignature(Signature signature) {
+        String sql = "UPDATE " + table + " SET professeurSignature = ? ,  dateSignatureProf = ?, userId = ?, idSeance = ? WHERE idSignature = ?";
 
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setBoolean(1, signature.isProfesseurSignature());
             stmt.setTimestamp(2, Timestamp.valueOf(signature.getDateSignatureProf()));
             stmt.setInt(3, signature.getUserId());
             stmt.setInt(4, signature.getSeanceId());
-            stmt.executeUpdate();
-            stmt.executeUpdate();
+            stmt.setInt(4, signature.getId());
+
+            int row = stmt.executeUpdate();
+            return row > 0;
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return false;
+
     }
 
     @Override
-    public void supprimerSignature(int id) {
-        String sql = "DELETE FROM " + table + " WHERE id = ?";
+    public boolean supprimerSignature(int id) {
+        String sql = "DELETE FROM " + table + " WHERE idSignature = ?";
 
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setInt(1, id);
-            stmt.executeUpdate();
+            int row = stmt.executeUpdate();
+            return row > 0;
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return false;
     }
 
     @Override
     public Signature getSignatureById(int id) {
-        String sql = "SELECT * FROM " + table + " WHERE id = ?";
+        String sql = "SELECT * FROM " + table + " WHERE idSignature = ?";
         Signature signature = null;
 
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
@@ -104,9 +113,9 @@ public class SignatureDao implements ISignatureDao {
 
     public Signature mapSignature(ResultSet rs) throws SQLException {
         return new Signature(
-                rs.getInt("id"),
+                rs.getInt("idSignature"),
                 rs.getInt("userId"),
-                rs.getInt("seanceId"),
+                rs.getInt("idSeance"),
                 rs.getBoolean("professeurSignature"),
                 rs.getTimestamp("dateSignatureProf").toLocalDateTime()
         );

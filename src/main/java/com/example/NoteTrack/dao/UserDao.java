@@ -15,7 +15,7 @@ public class UserDao implements IUserDao {
 
     public UserDao(Connection connection) {
         this.connection = connection;
-        this.table = "User";
+        this.table = "Utilisateur";
     }
 
     public UserDao(Connection connection, String table) {
@@ -116,7 +116,7 @@ public class UserDao implements IUserDao {
                 rs.getString("email"),
                 rs.getString("nom"),
                 rs.getString("prenom"),
-                rs.getInt("id")
+                rs.getInt("userId")
         );
         IRoleDao role = new RoleDao(connection);
         user.addAllRole(role.getRolesForUser(user.getId()));

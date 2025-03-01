@@ -5,11 +5,11 @@ import com.example.NoteTrack.entities.Signature;
 import java.util.List;
 
 public interface ISignatureDao {
-    void ajouterSignature(Signature signature);
+    boolean ajouterSignature(Signature signature);
 
-    void modifierSignature(Signature signature);
+    boolean modifierSignature(Signature signature);
 
-    void supprimerSignature(int id);
+    boolean supprimerSignature(int id);
 
     Signature getSignatureById(int id);
 

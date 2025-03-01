@@ -7,6 +7,11 @@ public class Role {
     private RoleEnum role;
     private int id;
 
+    public Role(String descriptionRole, RoleEnum role)
+    {
+        this.descriptionRole = descriptionRole;
+        this.role = role;
+    }
     public Role(String descriptionRole, RoleEnum role, int id)
     {
         this.descriptionRole = descriptionRole;

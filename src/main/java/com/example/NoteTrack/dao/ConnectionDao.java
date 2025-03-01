@@ -26,7 +26,14 @@ public class ConnectionDao implements IConnectionDao {
     public Connection getConnection() throws SQLException {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
-            return DriverManager.getConnection(config.getDbURL(), config.getUsername(), config.getPassword());
+            Connection conn = DriverManager.getConnection(config.getDbURL(), config.getUsername(), config.getPassword());
+            if (conn != null) {
+                System.out.println("✅ Connexion à la base de données établie avec succès !");
+            } else {
+                System.err.println("❌ Échec de la connexion à la base de données !");
+            }
+
+            return conn;
         } catch (ClassNotFoundException e) {
             throw new SQLException("JDBC Driver not found!", e);
         }

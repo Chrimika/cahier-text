@@ -3,17 +3,26 @@ package com.example.NoteTrack.entities;
 public class Niveau {
     private String code;
     private String nom;
-    private int id;
+    private String codeFiliere;
 
     public Niveau(String code, String nom) {
         this.code = code;
         this.nom = nom;
     }
 
-    public Niveau(String code, String nom, int id) {
+    public Niveau(String code, String nom, String codeFiliere)
+    {
         this.code = code;
         this.nom = nom;
-        this.id = id;
+        this.codeFiliere = codeFiliere;
+    }
+
+    public String getCodeFiliere() {
+        return codeFiliere;
+    }
+
+    public void setCodeFiliere(String codeFiliere) {
+        this.codeFiliere = codeFiliere;
     }
 
     public String getCode() {

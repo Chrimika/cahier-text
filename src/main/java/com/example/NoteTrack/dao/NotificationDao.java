@@ -24,7 +24,7 @@ public class NotificationDao implements INotificationDao {
     }
 
     @Override
-    public void addNotification(Notification notification) {
+    public boolean addNotification(Notification notification) {
         String sql = "INSERT INTO " + table + " (message, dateEnvoi,dateLecture, estLue, userId ,type) VALUES (?, ?,?, ?, ?)";
 
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
@@ -33,15 +33,17 @@ public class NotificationDao implements INotificationDao {
             stmt.setTimestamp(3, Timestamp.valueOf(notification.getDateLecture()));
             stmt.setBoolean(4, notification.isLu());
             stmt.setInt(5, notification.getUserId());
-            stmt.executeUpdate();
+            int row = stmt.executeUpdate();
+            return row > 0;
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return false;
     }
 
     @Override
-    public void updateNotification(Notification notification) {
-        String sql = "UPDATE " + table + " SET message = ?, dateEnvoi = ?, dateLecture = ? ,estLue = ?, userId = ?  WHERE id = ?";
+    public boolean updateNotification(Notification notification) {
+        String sql = "UPDATE " + table + " SET message = ?, dateEnvoi = ?, dateLecture = ? ,estLue = ?, userId = ?  WHERE idNotification = ?";
 
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setString(1, notification.getMessage());
@@ -50,27 +52,31 @@ public class NotificationDao implements INotificationDao {
             stmt.setBoolean(4, notification.isLu());
             stmt.setInt(5, notification.getUserId());
             stmt.setInt(6, notification.getId());
-            stmt.executeUpdate();
+            int row = stmt.executeUpdate();
+            return row > 0;
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return false;
     }
 
     @Override
-    public void deleteNotification(int id) {
-        String sql = "DELETE FROM " + table + " WHERE id = ?";
+    public boolean deleteNotification(int id) {
+        String sql = "DELETE FROM " + table + " WHERE idNotification = ?";
 
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setInt(1, id);
-            stmt.executeUpdate();
+            int row = stmt.executeUpdate();
+            return row > 0;
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return false;
     }
 
     @Override
     public Notification getNotificationById(int id) {
-        String sql = "SELECT * FROM " + table + " WHERE id = ?";
+        String sql = "SELECT * FROM " + table + " WHERE idNotification = ?";
 
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setInt(1, id);
@@ -139,7 +145,7 @@ public class NotificationDao implements INotificationDao {
                 break;
         }
         return new Notification(
-                rs.getInt("id"),
+                rs.getInt("idNotification"),
                 rs.getInt("userId"),
                 rs.getString("message"),
                 rs.getBoolean("lu"),

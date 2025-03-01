@@ -26,7 +26,7 @@ public class FiliereDao implements IFiliereDao {
 
     @Override
     public boolean ajouterFiliere(Filiere filiere) {
-        String sql = "INSERT INTO " + table + " (code, nom, description) VALUES (?, ?, ?)";
+        String sql = "INSERT INTO " + table + " (codeFiliere, nom, description) VALUES (?, ?, ?)";
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setString(1, filiere.getCode());
             stmt.setString(2, filiere.getNom());
@@ -41,11 +41,13 @@ public class FiliereDao implements IFiliereDao {
 
     @Override
     public boolean modifierFiliere(Filiere filiere) {
-        String sql = "UPDATE " + table + " SET nom = ?, description = ? WHERE code = ?";
+        String sql = "UPDATE " + table + " SET nom = ?, description = ? , codeFiliere = ? WHERE codeFiliere = ?";
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setString(1, filiere.getNom());
             stmt.setString(2, filiere.getDescription());
             stmt.setString(3, filiere.getCode());
+            stmt.setString(4, filiere.getCode());
+
             int row = stmt.executeUpdate();
             return row > 0;
         } catch (SQLException e) {
@@ -55,10 +57,10 @@ public class FiliereDao implements IFiliereDao {
     }
 
     @Override
-    public boolean supprimerFiliere(int id) {
-        String sql = "DELETE FROM " + table + " WHERE id = ?";
+    public boolean supprimerFiliere(String code) {
+        String sql = "DELETE FROM " + table + " WHERE codeFiliere = ?";
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
-            stmt.setInt(1, id);
+            stmt.setString(1, code);
            int row =  stmt.executeUpdate();
            return row > 0;
         } catch (SQLException e) {
@@ -68,10 +70,10 @@ public class FiliereDao implements IFiliereDao {
     }
 
     @Override
-    public Filiere getFiliereById(int id) {
-        String sql = "SELECT * FROM " + table + " WHERE id = ?";
+    public Filiere getFiliereByCode(String code) {
+        String sql = "SELECT * FROM " + table + " WHERE codeFiliere = ?";
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
-            stmt.setInt(1, id);
+            stmt.setString(1, code);
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
                 return mapFiliere(rs);
@@ -99,10 +101,9 @@ public class FiliereDao implements IFiliereDao {
 
     public Filiere mapFiliere(ResultSet rs) throws SQLException {
         return new Filiere(
-                rs.getString("code"),
+                rs.getString("codeFiliere"),
                 rs.getString("nom"),
-                rs.getString("description"),
-                rs.getInt("id")
+                rs.getString("description")
         );
     }
 }

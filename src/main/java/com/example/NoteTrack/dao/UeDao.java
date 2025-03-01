@@ -24,11 +24,12 @@ public class UeDao implements IUeDao {
 
     @Override
     public boolean ajouterUE(UE ue) {
-        String sql = "INSERT INTO " +table + " (code, nom, nombreHeures) VALUES (?, ?, ?)";
+        String sql = "INSERT INTO " +table + " (codeUe, nom, nombreHeures , codeNiveau) VALUES (?, ?, ?, ?)";
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setString(1, ue.getCode());
             stmt.setString(2, ue.getNom());
             stmt.setInt(3, ue.getNombreHeures());
+            stmt.setString(3, ue.getCodeNiveau());
             int row = stmt.executeUpdate();
             return row > 0;
         } catch (SQLException e) {
@@ -40,11 +41,14 @@ public class UeDao implements IUeDao {
 
     @Override
     public boolean modifierUE(UE ue) {
-        String sql = "UPDATE " +table + " SET nom = ?, nombreHeures = ? WHERE code = ?";
+        String sql = "UPDATE " +table + " SET nom = ?, nombreHeures = ? , codeUe = ? , codeNiveau = ? WHERE codeUe = ?";
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setString(1, ue.getNom());
             stmt.setInt(2, ue.getNombreHeures());
             stmt.setString(3, ue.getCode());
+            stmt.setString(4, ue.getCodeNiveau());
+            stmt.setString(5, ue.getCode());
+
             int row = stmt.executeUpdate();
             return row > 0;
         } catch (SQLException e) {
@@ -55,10 +59,10 @@ public class UeDao implements IUeDao {
     }
 
     @Override
-    public boolean supprimerUE(int id) {
-        String sql = "DELETE FROM " +table + " WHERE id = ?";
+    public boolean supprimerUE(String code) {
+        String sql = "DELETE FROM " +table + " WHERE codeUe = ?";
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
-            stmt.setInt(1, id);
+            stmt.setString(1, code);
             int row = stmt.executeUpdate();
             return row > 0;
         } catch (SQLException e) {
@@ -68,19 +72,13 @@ public class UeDao implements IUeDao {
     }
 
     @Override
-    public UE getUEById(int id) {
-        String sql = "SELECT * FROM " +table + " WHERE id = ?";
+    public UE getUEBycode(String code) {
+        String sql = "SELECT * FROM " +table + " WHERE codeUe = ?";
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
-            stmt.setInt(1, id);
+            stmt.setString(1, code);
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
-                return new UE(
-                        rs.getString("code"),
-                        rs.getString("nom"),
-                        rs.getInt("nombreHeures")
-                        , rs.getInt("id")
-
-                );
+                return mapUe(rs);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -95,16 +93,19 @@ public class UeDao implements IUeDao {
         try (Statement stmt = connection.createStatement();
              ResultSet rs = stmt.executeQuery(sql)) {
             while (rs.next()) {
-                ues.add(new UE(
-                        rs.getString("code"),
-                        rs.getString("nom"),
-                        rs.getInt("nombreHeures"),
-                        rs.getInt("id")
-                ));
+                ues.add(mapUe(rs));
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return ues;
+    }
+
+    public UE mapUe(ResultSet rs) throws SQLException {
+        return new UE(
+                rs.getString("codeUe"),
+                rs.getString("nom"),
+                rs.getInt("nombreHeures")
+        );
     }
 }

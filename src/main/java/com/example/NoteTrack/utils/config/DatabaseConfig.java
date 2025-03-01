@@ -2,6 +2,7 @@ package com.example.NoteTrack.utils.config;
 
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Properties;
 
 public class DatabaseConfig {
@@ -15,7 +16,7 @@ public class DatabaseConfig {
 
     private void loadConfig() {
         Properties properties = new Properties();
-        try (FileInputStream input = new FileInputStream("config.properties")) {
+        try (InputStream input = getClass().getClassLoader().getResourceAsStream("config.properties")) {
             properties.load(input);
             this.dbURL = properties.getProperty("db.url");
             this.username = properties.getProperty("db.username");

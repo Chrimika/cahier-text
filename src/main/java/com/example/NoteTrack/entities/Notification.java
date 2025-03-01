@@ -14,17 +14,14 @@ public class Notification {
     private LocalDateTime dateEnvoi;
     private NotificationStatus type;
 
-    public Notification() {
 
-    }
 
-    public Notification(String message, boolean lu, LocalDateTime dateLecture, LocalDateTime dateEnvoi, NotificationStatus type, int userId) {
+    public Notification(String message, boolean lu, LocalDateTime dateLecture, LocalDateTime dateEnvoi, NotificationStatus type) {
         this.message = message;
         this.lu = lu;
         this.dateLecture = dateLecture;
         this.dateEnvoi = dateEnvoi;
         this.type = type;
-        this.userId = userId;
     }
 
     public Notification(int id, int userId, String message, boolean lu, LocalDateTime dateLecture, LocalDateTime dateEnvoi, NotificationStatus type) {

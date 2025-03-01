@@ -5,11 +5,11 @@ import com.example.NoteTrack.entities.Notification;
 import java.util.List;
 
 public interface INotificationDao {
-    void addNotification(Notification notification);
+    boolean addNotification(Notification notification);
 
-    void updateNotification(Notification notification);
+    boolean updateNotification(Notification notification);
 
-    void deleteNotification(int id);
+    boolean deleteNotification(int id);
 
     Notification getNotificationById(int id);
 

@@ -4,7 +4,6 @@ public class Filiere {
     private String code;
     private String nom;
     private String description;
-    private int id;
 
     public Filiere(String code, String nom, String description) {
         this.code = code;
@@ -13,12 +12,6 @@ public class Filiere {
 
     }
 
-    public Filiere(String code, String nom, String description, int id) {
-        this.code = code;
-        this.nom = nom;
-        this.description = description;
-        this.id = id;
-    }
 
     public String getNom() {
         return nom;

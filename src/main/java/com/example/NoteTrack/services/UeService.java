@@ -30,13 +30,13 @@ public class UeService implements IUeService {
     }
 
     @Override
-    public boolean supprimerUniteEnseignement(int id) {
-        return ueDao.supprimerUE(id);
+    public boolean supprimerUniteEnseignement(String code) {
+        return ueDao.supprimerUE(code);
     }
 
     @Override
-    public UE getUniteEnseignementById(int id) {
-        return ueDao.getUEById(id);
+    public UE getUniteEnseignementByCode(String code) {
+        return ueDao.getUEBycode(code);
     }
 
     @Override

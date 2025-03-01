@@ -9,9 +9,9 @@ public interface IFiliereService {
 
     boolean modifierFiliere(Filiere filiere);
 
-    boolean supprimerFiliere(int id);
+    boolean supprimerFiliere(String code);
 
-    Filiere getFiliereById(int id);
+    Filiere getFiliereByCode(String  code);
 
     List<Filiere> getAllFilieres();
 }

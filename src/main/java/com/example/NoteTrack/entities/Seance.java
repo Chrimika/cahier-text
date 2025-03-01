@@ -9,30 +9,45 @@ public class Seance {
     private LocalTime heureFin;
     private int duree;
     private String titreLecon;
+    private String contenue;
     private int id;
-    private int id_niveau;
-    private int id_ue;
+    private String codeNiveau;
+    private String codeUe;
+    private int idSignature;
 
-    public Seance(Date dateCours, LocalTime heureDebut, LocalTime heureFin, int duree, String titreLecon) {
+    public Seance(Date dateCours, LocalTime heureDebut, LocalTime heureFin, int duree, String titreLecon, String contenue) {
         this.dateCours = dateCours;
         this.heureDebut = heureDebut;
         this.heureFin = heureFin;
         this.duree = duree;
         this.titreLecon = titreLecon;
+        this.contenue  = contenue;
     }
 
-    public Seance(int id, Date dateCours, LocalTime heureDebut, LocalTime heureFin, int duree, String titreLecon, int id_niveau, int id_ue) {
+    public Seance(int id, Date dateCours, LocalTime heureDebut, LocalTime heureFin, int duree, String titreLecon,String contenue ,String codeNiveau, String codeUe , int idSignature) {
         this.dateCours = dateCours;
         this.heureDebut = heureDebut;
         this.heureFin = heureFin;
         this.duree = duree;
         this.titreLecon = titreLecon;
         this.id = id;
-        this.id_niveau = id_niveau;
-        this.id_ue = id_ue;
+        this.codeNiveau = codeNiveau;
+        this.codeUe = codeUe;
+        this.contenue = contenue;
+        this.idSignature = idSignature;
     }
 
     // Getters and setters for all fields
+
+
+    public String getContenue() {
+        return contenue;
+    }
+
+    public void setContenue(String contenue) {
+        this.contenue = contenue;
+    }
+
     public Date getDateCours() {
         return dateCours;
     }
@@ -81,21 +96,28 @@ public class Seance {
         this.id = id;
     }
 
-    public int getId_ue() {
-        return id_ue;
+    public String getCodeUe() {
+        return codeUe;
     }
 
-    public void setId_ue(int id_ue) {
-        this.id_ue = id_ue;
+    public void setCodeUe(String codeUe) {
+        this.codeUe = codeUe;
     }
 
-    public int getId_niveau() {
-        return id_niveau;
+    public String getCodeNiveau() {
+        return codeNiveau;
     }
 
 
-    public void setId_niveau(int id_niveau) {
-        this.id_niveau = id_niveau;
+    public void setCodeNiveau(String codeNiveau) {
+        this.codeNiveau = codeNiveau;
     }
 
+    public int getIdSignature() {
+        return idSignature;
+    }
+
+    public void setIdSignature(int idSignature) {
+        this.idSignature = idSignature;
+    }
 }

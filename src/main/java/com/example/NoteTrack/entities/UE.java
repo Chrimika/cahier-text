@@ -4,14 +4,7 @@ public class UE {
     private String code;
     private String nom;
     private int nombreHeures;
-    private int id;
-
-    public UE(String code, String nom, int nombreHeures, int id) {
-        this.code = code;
-        this.nom = nom;
-        this.nombreHeures = nombreHeures;
-        this.id = id;
-    }
+    private String codeNiveau;
 
     public UE(String code, String nom, int nombreHeures) {
         this.code = code;
@@ -19,6 +12,22 @@ public class UE {
         this.nombreHeures = nombreHeures;
     }
 
+    public UE(String code, String nom, int nombreHeures , String codeNiveau) {
+        this.code = code;
+        this.nom = nom;
+        this.nombreHeures = nombreHeures;
+        this.codeNiveau = codeNiveau;
+    }
+
+    public String getCodeNiveau()
+    {
+        return this.getCodeNiveau();
+    }
+
+    public void setCodeNiveau(String codeNiveau)
+    {
+        this.codeNiveau = codeNiveau;
+    }
     public String getNom() {
         return nom;
     }

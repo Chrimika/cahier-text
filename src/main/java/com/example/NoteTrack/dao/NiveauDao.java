@@ -24,11 +24,12 @@ public class NiveauDao implements INiveauDao {
 
     @Override
     public boolean ajouterNiveau(Niveau niveau) {
-        String sql = "INSERT INTO " + table + " (code, nom) VALUES (?, ?)";
+        String sql = "INSERT INTO " + table + " (codeNiveau, nom , codeFiliere) VALUES (?, ?, ?)";
 
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setString(1, niveau.getCode());
             stmt.setString(2, niveau.getNom());
+            stmt.setString(3,niveau.getCodeFiliere());
            int row = stmt.executeUpdate();
            return row > 0;
         } catch (SQLException e) {
@@ -39,12 +40,15 @@ public class NiveauDao implements INiveauDao {
 
     @Override
     public boolean modifierNiveau(Niveau niveau) {
-        String sql = "UPDATE " + table + " SET nom = ? WHERE code = ?";
+        String sql = "UPDATE " + table + " SET nom = ? , codeNiveau = ? , codeFiliere = ? WHERE codeNiveau = ? ";
 
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setString(1, niveau.getNom());
             stmt.setString(2, niveau.getCode());
-          int row =  stmt.executeUpdate();
+            stmt.setString(3,niveau.getCodeFiliere());
+            stmt.setString(4, niveau.getCode());
+
+            int row =  stmt.executeUpdate();
           return row > 0;
         } catch (SQLException e) {
             e.printStackTrace();
@@ -53,11 +57,11 @@ public class NiveauDao implements INiveauDao {
     }
 
     @Override
-    public boolean supprimerNiveau(int id) {
-        String sql = "DELETE FROM " + table + " WHERE id = ?";
+    public boolean supprimerNiveau(String code) {
+        String sql = "DELETE FROM " + table + " WHERE codeNiveau = ?";
 
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
-            stmt.setInt(1, id);
+            stmt.setString(1, code);
            int row=  stmt.executeUpdate();
            return row > 0;
         } catch (SQLException e) {
@@ -67,19 +71,15 @@ public class NiveauDao implements INiveauDao {
     }
 
     @Override
-    public Niveau getNiveauById(int id) {
-        String sql = "SELECT * FROM " + table + " WHERE id = ?";
+    public Niveau getNiveauByCode(String code) {
+        String sql = "SELECT * FROM " + table + " WHERE codeNiveau = ?";
 
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
-            stmt.setInt(1, id);
+            stmt.setString(1, code);
             ResultSet rs = stmt.executeQuery();
 
             if (rs.next()) {
-                return new Niveau(
-                        rs.getString("code"),
-                        rs.getString("nom"),
-                        rs.getInt("id")
-                        );
+                return mapNiveau(rs);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -97,17 +97,20 @@ public class NiveauDao implements INiveauDao {
              ResultSet rs = stmt.executeQuery(sql)) {
 
             while (rs.next()) {
-                niveaux.add(new Niveau(
-                        rs.getString("code"),
-                        rs.getString("nom")
-                        , rs.getInt("id")
-
-                ));
+                niveaux.add(mapNiveau(rs));
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
         return niveaux;
+    }
+
+    public Niveau mapNiveau(ResultSet rs) throws SQLException {
+        return new Niveau(
+                rs.getString("codeNiveau"),
+                rs.getString("nom"),
+                rs.getString("codeFiliere")
+        );
     }
 }

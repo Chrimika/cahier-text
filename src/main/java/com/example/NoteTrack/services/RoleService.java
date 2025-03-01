@@ -36,6 +36,12 @@ public class RoleService implements IRoleService {
     }
 
     @Override
+    public boolean supprimerAllRole()
+    {
+        return roleDao.supprimerAllRole();
+    }
+
+    @Override
     public Role getRole(RoleEnum nameRole) {
         return roleDao.getRole(nameRole);
     }

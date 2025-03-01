@@ -10,8 +10,8 @@ import java.util.List;
 
 public class SeanceDao implements ISeanceDao {
 
-    private Connection connection;
-    private String table;
+    private final Connection connection;
+    private final String table;
 
     public SeanceDao(Connection connection) {
         this.connection = connection;
@@ -25,7 +25,7 @@ public class SeanceDao implements ISeanceDao {
 
     @Override
     public boolean addSeance(Seance seance) {
-        String sql = "INSERT INTO " + table + " (date, heureDebut, heureFin, duree,titreLecon, id_niveau, id_ue) VALUES (?, ?, ?, ?, ?, ?,?)";
+        String sql = "INSERT INTO " + table + " (date, heureDebut, heureFin, duree,titreLecon, codeNiveau, codeUe) VALUES (?, ?, ?, ?, ?, ?,?)";
 
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setDate(1, Date.valueOf(seance.getDateCours().toString()));
@@ -33,8 +33,8 @@ public class SeanceDao implements ISeanceDao {
             stmt.setTime(3, Time.valueOf(seance.getHeureFin()));
             stmt.setInt(4, seance.getDuree());
             stmt.setString(5, seance.getTitreLecon());
-            stmt.setInt(6, seance.getId_niveau());
-            stmt.setInt(7, seance.getId_ue());
+            stmt.setString(6, seance.getCodeNiveau());
+            stmt.setString(7, seance.getCodeUe());
             int row = stmt.executeUpdate();
             return row > 0;
         } catch (SQLException e) {
@@ -46,7 +46,7 @@ public class SeanceDao implements ISeanceDao {
 
     @Override
     public boolean updateSeance(Seance seance) {
-        String sql = "UPDATE " + table + " SET date = ?, heureDebut = ?, heureFin = ?, duree = ?,titreLecon = ? ,id_niveau = ?, id_ue = ? WHERE id = ?";
+        String sql = "UPDATE " + table + " SET date = ?, heureDebut = ?, heureFin = ?, duree = ?,titreLecon = ? ,codeNiveau = ?, codeUe = ? WHERE id = ?";
 
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setDate(1, Date.valueOf(seance.getDateCours().toString()));
@@ -54,8 +54,9 @@ public class SeanceDao implements ISeanceDao {
             stmt.setTime(3, Time.valueOf(seance.getHeureFin()));
             stmt.setInt(4, seance.getDuree());
             stmt.setString(5, seance.getTitreLecon());
-            stmt.setInt(6, seance.getId_niveau());
-            stmt.setInt(7, seance.getId_ue());
+            stmt.setString(6, seance.getCodeNiveau());
+            stmt.setString(7, seance.getCodeUe());
+            stmt.setInt(8 , seance.getId());
             int row = stmt.executeUpdate();
             return row > 0;
         } catch (SQLException e) {
@@ -123,9 +124,12 @@ public class SeanceDao implements ISeanceDao {
                 rs.getTime("heureDebut").toLocalTime(),
                 rs.getTime("heureFin").toLocalTime(),
                 rs.getInt("duree"),
-                rs.getString("description"),
-                rs.getInt("id_niveau"),
-                rs.getInt("id_ue")
+                rs.getString("titreLecon"),
+                rs.getString("contenue"),
+                rs.getString("codeNiveau"),
+                rs.getString("codeUe"),
+                rs.getInt("idSignature")
+
         );
 
     }

@@ -30,13 +30,13 @@ public class FiliereService implements IFiliereService {
     }
 
     @Override
-    public boolean supprimerFiliere(int id) {
-        return filiereDao.supprimerFiliere(id);
+    public boolean supprimerFiliere(String code) {
+        return filiereDao.supprimerFiliere(code);
     }
 
     @Override
-    public Filiere getFiliereById(int id) {
-        return filiereDao.getFiliereById(id);
+    public Filiere getFiliereByCode(String code) {
+        return filiereDao.getFiliereByCode(code);
     }
 
     @Override

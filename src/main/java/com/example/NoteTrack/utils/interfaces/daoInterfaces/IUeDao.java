@@ -9,9 +9,9 @@ public interface IUeDao {
 
     boolean modifierUE(UE ue);
 
-    boolean supprimerUE(int id);
+    boolean supprimerUE(String code);
 
-    UE getUEById(int id);
+    UE getUEBycode(String code);
 
     List<UE> getAllUEs();
 }

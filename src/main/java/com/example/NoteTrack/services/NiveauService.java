@@ -31,13 +31,13 @@ public class NiveauService implements INiveauService {
     }
 
     @Override
-    public boolean supprimerNiveau(int id) {
-        return niveauDao.supprimerNiveau(id);
+    public boolean supprimerNiveau(String code) {
+        return niveauDao.supprimerNiveau(code);
     }
 
     @Override
-    public Niveau getNiveauById(int id) {
-        return niveauDao.getNiveauById(id);
+    public Niveau getNiveauByCode(String code) {
+        return niveauDao.getNiveauByCode(code);
     }
 
     @Override

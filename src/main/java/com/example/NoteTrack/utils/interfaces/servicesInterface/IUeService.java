@@ -11,9 +11,9 @@ public interface IUeService {
 
     boolean modifierUniteEnseignement(UE ue);
 
-    boolean supprimerUniteEnseignement(int id);
+    boolean supprimerUniteEnseignement(String code);
 
-    UE getUniteEnseignementById(int id);
+    UE getUniteEnseignementByCode(String code);
 
     List<UE> getAllUniteEnseignements();
 }

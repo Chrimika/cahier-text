@@ -10,9 +10,9 @@ public interface INiveauService {
 
     boolean modifierNiveau(Niveau niveau);
 
-    boolean supprimerNiveau(int id);
+    boolean supprimerNiveau(String code);
 
-    Niveau getNiveauById(int id);
+    Niveau getNiveauByCode(String code);
 
     List<Niveau> getAllNiveaus();
 }

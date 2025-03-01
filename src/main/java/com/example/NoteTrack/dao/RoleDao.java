@@ -19,6 +19,7 @@ public class RoleDao implements IRoleDao {
 
     public RoleDao(Connection connection) {
         this.connection = connection;
+        this.table = "role";
     }
 
     @Override
@@ -63,6 +64,20 @@ public class RoleDao implements IRoleDao {
     }
 
     @Override
+    public boolean supprimerAllRole() {
+        String sql ="DELETE FROM "+ table ;
+        try(Statement stmt  = connection.createStatement()) {
+            int row = stmt.executeUpdate(sql);
+            return row > 0;
+        }
+        catch (SQLException e)
+        {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    @Override
     public Role getRole(RoleEnum role) {
         String sql = "SELECT description FROM " + table + " WHERE nom = ?";
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
@@ -101,8 +116,8 @@ public class RoleDao implements IRoleDao {
     @Override
     public List<Role> getRolesForUser(int userId) {
         List<Role> roles = new ArrayList<>();
-        String sql = "SELECT r.id, r.nom , r.description FROM Role r " +
-                "JOIN userRole ur ON r.id = ur.role_id " +
+        String sql = "SELECT r.id, r.nom , r.description FROM "+table+" r " +
+                "JOIN roleUtilisateur ur ON r.id = ur.role_id " +
                 "WHERE ur.user_id = ?";
 
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
