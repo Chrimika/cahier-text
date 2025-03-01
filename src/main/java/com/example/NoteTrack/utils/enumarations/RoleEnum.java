@@ -4,5 +4,4 @@ public enum RoleEnum {
     ADMINISTRATEUR,
     PROFESSEUR,
     DELEGUE,
-    RESPONSABLE_CAHIER_TEXTE
 }

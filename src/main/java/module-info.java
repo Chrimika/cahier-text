@@ -10,9 +10,10 @@ module com.example.NoteTrack {
     requires org.kordamp.bootstrapfx.core;
     requires eu.hansolo.tilesfx;
     requires com.almasb.fxgl.all;
-    requires java.sql;
     requires annotations;
     requires java.management;
+    requires com.fasterxml.jackson.databind;
+    requires java.sql;
 
     opens com.example.NoteTrack to javafx.fxml;
     exports com.example.NoteTrack;
