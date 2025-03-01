@@ -60,7 +60,7 @@ public class UserDao implements IUserDao {
     }
 
     @Override
-    public void addUser(User user) {
+    public boolean addUser(User user) {
         String sql = "INSERT INTO " + table + " (username, password, email, nom, prenom) VALUES (?, ?, ?, ?, ?)";
 
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
@@ -69,14 +69,16 @@ public class UserDao implements IUserDao {
             stmt.setString(3, user.getEmail());
             stmt.setString(4, user.getNom());
             stmt.setString(5, user.getPrenom());
-            stmt.executeUpdate();
+           int row=  stmt.executeUpdate();
+           return row > 0;
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return false;
     }
 
     @Override
-    public void updateUser(User user) {
+    public boolean updateUser(User user) {
         String sql = "UPDATE " + table + " SET password = ?, email = ?, nom = ?, prenom = ? WHERE username = ?";
 
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
@@ -85,22 +87,26 @@ public class UserDao implements IUserDao {
             stmt.setString(3, user.getNom());
             stmt.setString(4, user.getPrenom());
             stmt.setString(5, user.getUsername());
-            stmt.executeUpdate();
+            int row = stmt.executeUpdate();
+            return row > 0;
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return false;
     }
 
     @Override
-    public void deleteUser(String username) {
+    public boolean deleteUser(String username) {
         String sql = "DELETE FROM " + table + " WHERE username = ?";
 
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setString(1, username);
-            stmt.executeUpdate();
+            int row = stmt.executeUpdate();
+            return row > 0;
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return false;
     }
 
     public User mapUser(ResultSet rs) throws SQLException {

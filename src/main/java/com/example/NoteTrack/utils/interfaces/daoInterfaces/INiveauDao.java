@@ -6,11 +6,11 @@ import java.util.List;
 
 public interface INiveauDao {
 
-    void ajouterNiveau(Niveau niveau);
+    boolean ajouterNiveau(Niveau niveau);
 
-    void modifierNiveau(Niveau niveau);
+    boolean modifierNiveau(Niveau niveau);
 
-    void supprimerNiveau(int id);
+    boolean supprimerNiveau(int id);
 
     Niveau getNiveauById(int id);
 

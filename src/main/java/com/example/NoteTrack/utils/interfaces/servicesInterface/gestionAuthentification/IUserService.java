@@ -3,11 +3,19 @@ package com.example.NoteTrack.utils.interfaces.servicesInterface.gestionAuthenti
 import com.example.NoteTrack.entities.User;
 
 public interface IUserService {
-    void ajouterUtilisateur(User user);
 
-    void modifierUtilisateur(User user);
+    boolean register(User user);
 
-    void supprimerUtilisateur(String username);
+    User login(String username, String password);
+
+    void logout(String token);
+
+    boolean supprimerUtilisateur(String username);
 
     User getUtilisateur(String username);
+
+    boolean modifierUtilisateur(User user);
+
+
+    boolean isAuthenticated(String token);
 }

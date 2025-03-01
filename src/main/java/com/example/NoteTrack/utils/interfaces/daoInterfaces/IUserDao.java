@@ -9,9 +9,9 @@ public interface IUserDao {
 
     List<User> getAllUsers();
 
-    void addUser(User user);
+    boolean addUser(User user);
 
-    void updateUser(User user);
+    boolean updateUser(User user);
 
-    void deleteUser(String username);
+    boolean deleteUser(String username);
 }

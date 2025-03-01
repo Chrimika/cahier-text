@@ -24,7 +24,7 @@ public class SeanceDao implements ISeanceDao {
     }
 
     @Override
-    public void addSeance(Seance seance) {
+    public boolean addSeance(Seance seance) {
         String sql = "INSERT INTO " + table + " (date, heureDebut, heureFin, duree,titreLecon, id_niveau, id_ue) VALUES (?, ?, ?, ?, ?, ?,?)";
 
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
@@ -35,14 +35,17 @@ public class SeanceDao implements ISeanceDao {
             stmt.setString(5, seance.getTitreLecon());
             stmt.setInt(6, seance.getId_niveau());
             stmt.setInt(7, seance.getId_ue());
-            stmt.executeUpdate();
+            int row = stmt.executeUpdate();
+            return row > 0;
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return false;
+
     }
 
     @Override
-    public void updateSeance(Seance seance) {
+    public boolean updateSeance(Seance seance) {
         String sql = "UPDATE " + table + " SET date = ?, heureDebut = ?, heureFin = ?, duree = ?,titreLecon = ? ,id_niveau = ?, id_ue = ? WHERE id = ?";
 
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
@@ -53,22 +56,27 @@ public class SeanceDao implements ISeanceDao {
             stmt.setString(5, seance.getTitreLecon());
             stmt.setInt(6, seance.getId_niveau());
             stmt.setInt(7, seance.getId_ue());
-            stmt.executeUpdate();
+            int row = stmt.executeUpdate();
+            return row > 0;
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return false;
+
     }
 
     @Override
-    public void deleteSeance(int id) {
+    public boolean deleteSeance(int id) {
         String sql = "DELETE FROM " + table + " WHERE id = ?";
 
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setInt(1, id);
-            stmt.executeUpdate();
+            int row = stmt.executeUpdate();
+            return row > 0;
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return false;
     }
 
     @Override

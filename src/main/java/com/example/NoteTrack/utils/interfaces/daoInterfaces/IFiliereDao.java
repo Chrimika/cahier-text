@@ -5,11 +5,11 @@ import com.example.NoteTrack.entities.Filiere;
 import java.util.List;
 
 public interface IFiliereDao {
-    void ajouterFiliere(Filiere filiere);
+    boolean ajouterFiliere(Filiere filiere);
 
-    void modifierFiliere(Filiere filiere);
+    boolean modifierFiliere(Filiere filiere);
 
-    void supprimerFiliere(int id);
+    boolean supprimerFiliere(int id);
 
     Filiere getFiliereById(int id);
 

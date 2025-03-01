@@ -23,41 +23,47 @@ public class NiveauDao implements INiveauDao {
     }
 
     @Override
-    public void ajouterNiveau(Niveau niveau) {
+    public boolean ajouterNiveau(Niveau niveau) {
         String sql = "INSERT INTO " + table + " (code, nom) VALUES (?, ?)";
 
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setString(1, niveau.getCode());
             stmt.setString(2, niveau.getNom());
-            stmt.executeUpdate();
+           int row = stmt.executeUpdate();
+           return row > 0;
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return false;
     }
 
     @Override
-    public void modifierNiveau(Niveau niveau) {
+    public boolean modifierNiveau(Niveau niveau) {
         String sql = "UPDATE " + table + " SET nom = ? WHERE code = ?";
 
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setString(1, niveau.getNom());
             stmt.setString(2, niveau.getCode());
-            stmt.executeUpdate();
+          int row =  stmt.executeUpdate();
+          return row > 0;
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return false;
     }
 
     @Override
-    public void supprimerNiveau(int id) {
+    public boolean supprimerNiveau(int id) {
         String sql = "DELETE FROM " + table + " WHERE id = ?";
 
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setInt(1, id);
-            stmt.executeUpdate();
+           int row=  stmt.executeUpdate();
+           return row > 0;
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return false;
     }
 
     @Override

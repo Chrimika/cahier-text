@@ -5,11 +5,11 @@ import com.example.NoteTrack.entities.Seance;
 import java.util.List;
 
 public interface ISeanceDao {
-    void addSeance(Seance seance);
+    boolean addSeance(Seance seance);
 
-    void updateSeance(Seance seance);
+    boolean updateSeance(Seance seance);
 
-    void deleteSeance(int id);
+    boolean deleteSeance(int id);
 
     Seance getSeanceById(int id);
 

@@ -1,14 +1,13 @@
 package com.example.NoteTrack.entities;
 
 import com.example.NoteTrack.utils.interfaces.entitieInterface.IAuthentifiable;
-import com.example.NoteTrack.utils.interfaces.entitieInterface.IEntiteDb;
 import com.example.NoteTrack.utils.interfaces.entitieInterface.IPersonne;
 import com.example.NoteTrack.utils.interfaces.entitieInterface.IRoleManager;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class User implements IAuthentifiable, IPersonne, IRoleManager, IEntiteDb {
+public class User implements IAuthentifiable, IPersonne, IRoleManager {
     private int id;
     private String username;
     private String password;

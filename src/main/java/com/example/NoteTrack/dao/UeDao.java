@@ -23,40 +23,48 @@ public class UeDao implements IUeDao {
     }
 
     @Override
-    public void ajouterUE(UE ue) {
+    public boolean ajouterUE(UE ue) {
         String sql = "INSERT INTO " +table + " (code, nom, nombreHeures) VALUES (?, ?, ?)";
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setString(1, ue.getCode());
             stmt.setString(2, ue.getNom());
             stmt.setInt(3, ue.getNombreHeures());
-            stmt.executeUpdate();
+            int row = stmt.executeUpdate();
+            return row > 0;
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return false;
+
     }
 
     @Override
-    public void modifierUE(UE ue) {
+    public boolean modifierUE(UE ue) {
         String sql = "UPDATE " +table + " SET nom = ?, nombreHeures = ? WHERE code = ?";
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setString(1, ue.getNom());
             stmt.setInt(2, ue.getNombreHeures());
             stmt.setString(3, ue.getCode());
-            stmt.executeUpdate();
+            int row = stmt.executeUpdate();
+            return row > 0;
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return false;
+
     }
 
     @Override
-    public void supprimerUE(int id) {
+    public boolean supprimerUE(int id) {
         String sql = "DELETE FROM " +table + " WHERE id = ?";
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setInt(1, id);
-            stmt.executeUpdate();
+            int row = stmt.executeUpdate();
+            return row > 0;
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return false;
     }
 
     @Override

@@ -12,57 +12,59 @@ public class FiliereDao implements IFiliereDao {
     private Connection connection;
     private String table;
 
-    public FiliereDao(DatabaseConfig config) {
-        try {
-            this.connection = ConnectionDao.getInstance(config).getConnection();
+    public FiliereDao(Connection connection) {
+            this.connection = connection;
             this.table = "Filiere";
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
     }
 
 
-    public FiliereDao(String table) {
+    public FiliereDao(Connection connection, String table) {
         this.connection = connection;
         this.table = table;
     }
 
 
     @Override
-    public void ajouterFiliere(Filiere filiere) {
+    public boolean ajouterFiliere(Filiere filiere) {
         String sql = "INSERT INTO " + table + " (code, nom, description) VALUES (?, ?, ?)";
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setString(1, filiere.getCode());
             stmt.setString(2, filiere.getNom());
             stmt.setString(3, filiere.getDescription());
-            stmt.executeUpdate();
+            int row =  stmt.executeUpdate();
+            return row > 0;
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return false;
     }
 
     @Override
-    public void modifierFiliere(Filiere filiere) {
+    public boolean modifierFiliere(Filiere filiere) {
         String sql = "UPDATE " + table + " SET nom = ?, description = ? WHERE code = ?";
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setString(1, filiere.getNom());
             stmt.setString(2, filiere.getDescription());
             stmt.setString(3, filiere.getCode());
-            stmt.executeUpdate();
+            int row = stmt.executeUpdate();
+            return row > 0;
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return  false;
     }
 
     @Override
-    public void supprimerFiliere(int id) {
+    public boolean supprimerFiliere(int id) {
         String sql = "DELETE FROM " + table + " WHERE id = ?";
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setInt(1, id);
-            stmt.executeUpdate();
+           int row =  stmt.executeUpdate();
+           return row > 0;
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return false;
     }
 
     @Override

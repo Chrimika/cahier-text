@@ -11,7 +11,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class SessionManagerService implements ISessionManagerService {
-    private static final String SESSION_FILE = "session.json";
+    private static final String SESSION_FILE =  "session.json";
     private Map<String, User> activeSessions;
 
     public SessionManagerService() {
@@ -35,7 +35,9 @@ public class SessionManagerService implements ISessionManagerService {
         try {
             File file = new File(SESSION_FILE);
             if (file.exists()) {
-                activeSessions = objectMapper.readValue(file, new TypeReference<Map<String, User>>() {});
+                activeSessions = objectMapper.readValue(file, new TypeReference<Map<String, User>>() {
+
+                });
             }
         } catch (IOException e) {
             System.err.println("Erreur lors du chargement des sessions : " + e.getMessage());
@@ -49,15 +51,24 @@ public class SessionManagerService implements ISessionManagerService {
     }
 
     @Override
+    public User getUtilisateurAuthentifier()
+    {
+        if(activeSessions.isEmpty())
+        {
+            return null;
+        }
+
+       return activeSessions.values().iterator().next();
+    }
+
+
+
+    @Override
     public void removeSession(String token) {
         activeSessions.remove(token);
         saveSessions();
     }
 
-    @Override
-    public User getUserByToken(String token) {
-        return activeSessions.get(token);
-    }
 
     @Override
     public boolean isAuthenticated(String token) {

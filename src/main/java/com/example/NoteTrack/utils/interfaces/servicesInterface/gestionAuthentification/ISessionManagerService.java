@@ -11,7 +11,8 @@ public interface ISessionManagerService {
 
     void removeSession(String token);
 
-    User getUserByToken(String token);
 
     boolean isAuthenticated(String token);
+
+    User  getUtilisateurAuthentifier();
 }
