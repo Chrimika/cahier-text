@@ -6,7 +6,6 @@ import com.example.NoteTrack.utils.interfaces.servicesInterface.ISeanceService;
 import java.util.List;
 
 public class SeanceService implements ISeanceService {
-    private
     @Override
     public boolean AjouterNouvelleSeance(Seance seance) {
         return false;
