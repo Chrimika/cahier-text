@@ -1,23 +1,32 @@
 package com.example.NoteTrack.services;
 
 import com.example.NoteTrack.dao.ConnectionDao;
+import com.example.NoteTrack.dao.RoleDao;
 import com.example.NoteTrack.dao.UserDao;
+import com.example.NoteTrack.entities.Role;
 import com.example.NoteTrack.entities.User;
 import com.example.NoteTrack.utils.config.DatabaseConfig;
+import com.example.NoteTrack.utils.enumarations.RoleEnum;
+import com.example.NoteTrack.utils.interfaces.daoInterfaces.IRoleDao;
 import com.example.NoteTrack.utils.interfaces.daoInterfaces.IUserDao;
+import com.example.NoteTrack.utils.interfaces.servicesInterface.IRoleService;
 import com.example.NoteTrack.utils.interfaces.servicesInterface.gestionAuthentification.IUserService;
 import com.example.NoteTrack.utils.interfaces.servicesInterface.gestionAuthentification.ISessionManagerService;
 
+
+import java.sql.Connection;
 import java.sql.SQLException;
 
 public class UserService implements IUserService {
     private final IUserDao userDao;
+    private final IRoleDao roleDao;
     private final ISessionManagerService SessionManager;
 
     public UserService() throws SQLException {
-        DatabaseConfig config = new DatabaseConfig();
         ISessionManagerService sessionManager = new SessionManagerService();
-        this.userDao = new UserDao(ConnectionDao.getInstance(config).getConnection());
+        Connection connection = ConnectionService.getInstance().getConnection();
+        this.userDao = new UserDao(connection);
+        this.roleDao = new RoleDao(connection);
         this.SessionManager = sessionManager;
     }
 
@@ -27,6 +36,23 @@ public class UserService implements IUserService {
         if (userDao.getUser(user.getUsername()) == null) {
             userDao.addUser(user);
             return true;
+        }
+        return false;
+    }
+
+    @Override
+    public boolean registerWithRole(User user, RoleEnum role) throws SQLException {
+        IRoleService roleService = new RoleService();
+        Role roleBd = roleService.getRole(role);
+        boolean verifUserInsert = this.register(user);
+        if (verifUserInsert) {
+            if (userDao.getUser(user.getUsername()) != null) {
+                boolean verifRoleAdd = roleDao.ajouterRoleUser(userDao.getUser(user.getUsername()).getId(), roleBd.getId());
+                if (verifRoleAdd)
+                    return true;
+                else
+                    return false;
+            }
         }
         return false;
     }
@@ -67,11 +93,11 @@ public class UserService implements IUserService {
         return SessionManager.isAuthenticated(token);
     }
 
-    public static User getUtilisateurAuthentifier()
-    {
+    public static User getUtilisateurAuthentifier() {
         SessionManagerService sessionManagerService = new SessionManagerService();
         return sessionManagerService.getUtilisateurAuthentifier();
     }
+
     private String generateToken(User user) {
         return user.getUsername() + "_" + System.currentTimeMillis();
     }

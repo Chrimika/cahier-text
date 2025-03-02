@@ -15,8 +15,7 @@ public class SeanceService implements ISeanceService {
 
     public SeanceService() throws SQLException
     {
-        DatabaseConfig config = new DatabaseConfig();
-        seanceDao = new SeanceDao(ConnectionDao.getInstance(config).getConnection());
+        seanceDao = new SeanceDao(ConnectionService.getInstance().getConnection());
     }
 
     @Override

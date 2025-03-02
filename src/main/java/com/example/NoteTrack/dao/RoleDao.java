@@ -1,6 +1,7 @@
 package com.example.NoteTrack.dao;
 
 import com.example.NoteTrack.entities.Role;
+import com.example.NoteTrack.entities.User;
 import com.example.NoteTrack.utils.enumarations.RoleEnum;
 import com.example.NoteTrack.utils.interfaces.daoInterfaces.IRoleDao;
 
@@ -65,13 +66,11 @@ public class RoleDao implements IRoleDao {
 
     @Override
     public boolean supprimerAllRole() {
-        String sql ="DELETE FROM "+ table ;
-        try(Statement stmt  = connection.createStatement()) {
+        String sql = "DELETE FROM " + table;
+        try (Statement stmt = connection.createStatement()) {
             int row = stmt.executeUpdate(sql);
             return row > 0;
-        }
-        catch (SQLException e)
-        {
+        } catch (SQLException e) {
             e.printStackTrace();
         }
         return false;
@@ -79,7 +78,7 @@ public class RoleDao implements IRoleDao {
 
     @Override
     public Role getRole(RoleEnum role) {
-        String sql = "SELECT description FROM " + table + " WHERE nom = ?";
+        String sql = "SELECT idRole, nom ,description FROM " + table + " WHERE nom = ?";
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setString(1, role.name());
             try (ResultSet rs = stmt.executeQuery()) {
@@ -110,15 +109,31 @@ public class RoleDao implements IRoleDao {
             e.printStackTrace();
             ;
         }
-        return  roles;
+        return roles;
     }
+
+    @Override
+    public boolean ajouterRoleUser(int idUser, int idRole) {
+        String sql = "INSERT INTO roleUtilisateur (userId, idRole) VALUES (?, ?)";
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setInt(1, idUser);
+            stmt.setInt(2, idRole);
+            int row = stmt.executeUpdate();
+            return row > 1;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return false;
+    }
+
 
     @Override
     public List<Role> getRolesForUser(int userId) {
         List<Role> roles = new ArrayList<>();
-        String sql = "SELECT r.id, r.nom , r.description FROM "+table+" r " +
-                "JOIN roleUtilisateur ur ON r.id = ur.role_id " +
-                "WHERE ur.user_id = ?";
+        String sql = "SELECT r.idRole, r.nom , r.description FROM " + table + " r " +
+                "JOIN roleUtilisateur ur ON r.idRole = ur.idRole " +
+                "WHERE ur.userId = ?";
 
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setInt(1, userId);
@@ -136,6 +151,6 @@ public class RoleDao implements IRoleDao {
     }
 
     public Role mapRole(ResultSet rs) throws SQLException {
-        return new Role(rs.getString("description"), RoleEnum.valueOf(rs.getString("nom")), rs.getInt("id"));
+        return new Role(rs.getString("description"), RoleEnum.valueOf(rs.getString("nom")), rs.getInt("idRole"));
     }
 }

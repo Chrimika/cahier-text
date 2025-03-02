@@ -17,8 +17,7 @@ public class RoleService implements IRoleService {
 
     public RoleService() throws SQLException
     {
-        DatabaseConfig config = new DatabaseConfig();
-        roleDao = new RoleDao(ConnectionDao.getInstance(config).getConnection());
+        roleDao = new RoleDao(ConnectionService.getInstance().getConnection());
     }
     @Override
     public boolean ajouterRole(Role role) {

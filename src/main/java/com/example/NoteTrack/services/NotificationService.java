@@ -16,8 +16,7 @@ public class NotificationService implements INotificationService {
 
     public NotificationService() throws SQLException
     {
-        DatabaseConfig config = new DatabaseConfig();
-        notificationDao = new NotificationDao(ConnectionDao.getInstance(config).getConnection());
+        notificationDao = new NotificationDao(ConnectionService.getInstance().getConnection());
     }
 
     @Override

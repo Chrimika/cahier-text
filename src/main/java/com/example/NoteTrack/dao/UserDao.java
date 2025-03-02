@@ -1,5 +1,6 @@
 package com.example.NoteTrack.dao;
 
+import com.example.NoteTrack.entities.Role;
 import com.example.NoteTrack.entities.User;
 import com.example.NoteTrack.utils.interfaces.daoInterfaces.IRoleDao;
 import com.example.NoteTrack.utils.interfaces.daoInterfaces.IUserDao;
@@ -40,6 +41,7 @@ public class UserDao implements IUserDao {
 
         return null;
     }
+
 
     @Override
     public List<User> getAllUsers() {

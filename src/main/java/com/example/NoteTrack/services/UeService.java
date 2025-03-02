@@ -16,8 +16,7 @@ public class UeService implements IUeService {
 
     public UeService () throws SQLException
     {
-        DatabaseConfig config = new DatabaseConfig();
-        ueDao = new UeDao(ConnectionDao.getInstance(config).getConnection());
+        ueDao = new UeDao(ConnectionService.getInstance().getConnection());
     }
     @Override
     public boolean ajouterUniteEnseignement(UE ue) {

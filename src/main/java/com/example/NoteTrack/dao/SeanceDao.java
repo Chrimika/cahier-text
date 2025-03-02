@@ -46,7 +46,7 @@ public class SeanceDao implements ISeanceDao {
 
     @Override
     public boolean updateSeance(Seance seance) {
-        String sql = "UPDATE " + table + " SET date = ?, heureDebut = ?, heureFin = ?, duree = ?,titreLecon = ? ,codeNiveau = ?, codeUe = ? WHERE id = ?";
+        String sql = "UPDATE " + table + " SET date = ?, heureDebut = ?, heureFin = ?, duree = ?,titreLecon = ? ,codeNiveau = ?, codeUe = ? WHERE idSeance = ?";
 
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setDate(1, Date.valueOf(seance.getDateCours().toString()));
@@ -68,7 +68,7 @@ public class SeanceDao implements ISeanceDao {
 
     @Override
     public boolean deleteSeance(int id) {
-        String sql = "DELETE FROM " + table + " WHERE id = ?";
+        String sql = "DELETE FROM " + table + " WHERE idSeance = ?";
 
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setInt(1, id);
@@ -82,7 +82,7 @@ public class SeanceDao implements ISeanceDao {
 
     @Override
     public Seance getSeanceById(int id) {
-        String sql = "SELECT * FROM " + table + " WHERE id = ?";
+        String sql = "SELECT * FROM " + table + " WHERE idSeance = ?";
 
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setInt(1, id);
@@ -119,7 +119,7 @@ public class SeanceDao implements ISeanceDao {
 
     public Seance mapSeance(@NotNull ResultSet rs) throws SQLException {
         return new Seance(
-                rs.getInt("id"),
+                rs.getInt("idSeance"),
                 rs.getDate("dateCours"),
                 rs.getTime("heureDebut").toLocalTime(),
                 rs.getTime("heureFin").toLocalTime(),

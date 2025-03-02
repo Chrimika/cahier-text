@@ -5,6 +5,7 @@ import com.example.NoteTrack.dao.FiliereDao;
 import com.example.NoteTrack.entities.Filiere;
 import com.example.NoteTrack.utils.config.DatabaseConfig;
 import com.example.NoteTrack.utils.interfaces.daoInterfaces.IFiliereDao;
+import com.example.NoteTrack.utils.interfaces.servicesInterface.IConnectionService;
 import com.example.NoteTrack.utils.interfaces.servicesInterface.IFiliereService;
 
 import java.sql.SQLException;
@@ -15,8 +16,7 @@ public class FiliereService implements IFiliereService {
 
     public FiliereService() throws SQLException
     {
-        DatabaseConfig config = new DatabaseConfig();
-        filiereDao = new FiliereDao(ConnectionDao.getInstance(config).getConnection());
+        filiereDao = new FiliereDao(ConnectionService.getInstance().getConnection());
     }
 
     @Override

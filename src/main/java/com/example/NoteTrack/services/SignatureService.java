@@ -16,8 +16,7 @@ public class SignatureService implements ISignatureService {
 
     public SignatureService() throws SQLException
     {
-        DatabaseConfig config = new DatabaseConfig();
-        signatureDao = new SignatureDao(ConnectionDao.getInstance(config).getConnection());
+        signatureDao = new SignatureDao(ConnectionService.getInstance().getConnection());
     }
     @Override
     public boolean ajouterSignature(Signature signature) {

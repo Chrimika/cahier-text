@@ -16,8 +16,7 @@ public class NiveauService implements INiveauService {
 
     public NiveauService() throws SQLException
     {
-        DatabaseConfig databaseConfig = new DatabaseConfig();
-        niveauDao = new NiveauDao(ConnectionDao.getInstance(databaseConfig).getConnection());
+        niveauDao = new NiveauDao(ConnectionService.getInstance().getConnection());
     }
 
     @Override

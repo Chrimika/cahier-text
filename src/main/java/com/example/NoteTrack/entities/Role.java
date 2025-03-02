@@ -19,7 +19,7 @@ public class Role {
         this.id = id;
     }
 
-    public int getId(int id) {
+    public int getId() {
         return id;
     }
 

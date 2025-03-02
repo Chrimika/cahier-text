@@ -14,6 +14,7 @@ module com.example.NoteTrack {
     requires java.management;
     requires com.fasterxml.jackson.databind;
     requires java.sql;
+    requires mysql.connector.java;
 
     opens com.example.NoteTrack to javafx.fxml;
     exports com.example.NoteTrack;

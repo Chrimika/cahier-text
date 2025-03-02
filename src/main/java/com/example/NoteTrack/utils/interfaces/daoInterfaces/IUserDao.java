@@ -1,5 +1,6 @@
 package com.example.NoteTrack.utils.interfaces.daoInterfaces;
 
+import com.example.NoteTrack.entities.Role;
 import com.example.NoteTrack.entities.User;
 
 import java.util.List;
