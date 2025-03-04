@@ -12,7 +12,7 @@ import java.util.Map;
 
 public class SessionManagerService implements ISessionManagerService {
     private static final String SESSION_FILE =  "session.json";
-    private Map<String, User> activeSessions;
+    private Map<String, String> activeSessions;
 
     public SessionManagerService() {
         this.activeSessions = new HashMap<>();
@@ -35,8 +35,7 @@ public class SessionManagerService implements ISessionManagerService {
         try {
             File file = new File(SESSION_FILE);
             if (file.exists()) {
-                activeSessions = objectMapper.readValue(file, new TypeReference<Map<String, User>>() {
-
+                activeSessions = objectMapper.readValue(file, new TypeReference<Map<String, String>>() {
                 });
             }
         } catch (IOException e) {
@@ -45,13 +44,13 @@ public class SessionManagerService implements ISessionManagerService {
     }
 
     @Override
-    public void addSession(String token, User user) {
-        activeSessions.put(token, user);
+    public void addSession(String token, String username) {
+        activeSessions.put(token, username);
         saveSessions();
     }
 
     @Override
-    public User getUtilisateurAuthentifier()
+    public String getUtilisateurAuthentifier()
     {
         if(activeSessions.isEmpty())
         {

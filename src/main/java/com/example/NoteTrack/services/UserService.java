@@ -1,11 +1,9 @@
 package com.example.NoteTrack.services;
 
-import com.example.NoteTrack.dao.ConnectionDao;
 import com.example.NoteTrack.dao.RoleDao;
 import com.example.NoteTrack.dao.UserDao;
 import com.example.NoteTrack.entities.Role;
 import com.example.NoteTrack.entities.User;
-import com.example.NoteTrack.utils.config.DatabaseConfig;
 import com.example.NoteTrack.utils.enumarations.RoleEnum;
 import com.example.NoteTrack.utils.interfaces.daoInterfaces.IRoleDao;
 import com.example.NoteTrack.utils.interfaces.daoInterfaces.IUserDao;
@@ -62,7 +60,7 @@ public class UserService implements IUserService {
         User user = userDao.getUser(username);
         if (user != null && user.getPassword().equals(password)) {
             String token = generateToken(user);
-            SessionManager.addSession(token, user);
+            SessionManager.addSession(token, username);
             return user;
         }
         return null;
@@ -93,9 +91,11 @@ public class UserService implements IUserService {
         return SessionManager.isAuthenticated(token);
     }
 
-    public static User getUtilisateurAuthentifier() {
+    public static User getUtilisateurAuthentifier() throws SQLException {
         SessionManagerService sessionManagerService = new SessionManagerService();
-        return sessionManagerService.getUtilisateurAuthentifier();
+        IUserService userService = new UserService();
+        User user = userService.getUtilisateur(sessionManagerService.getUtilisateurAuthentifier());
+        return user;
     }
 
     private String generateToken(User user) {

@@ -1,9 +1,7 @@
 package com.example.NoteTrack.services;
 
-import com.example.NoteTrack.dao.ConnectionDao;
 import com.example.NoteTrack.dao.RoleDao;
 import com.example.NoteTrack.entities.Role;
-import com.example.NoteTrack.utils.config.DatabaseConfig;
 import com.example.NoteTrack.utils.enumarations.RoleEnum;
 import com.example.NoteTrack.utils.interfaces.daoInterfaces.IRoleDao;
 import com.example.NoteTrack.utils.interfaces.servicesInterface.IRoleService;
@@ -13,7 +11,7 @@ import java.util.List;
 
 public class RoleService implements IRoleService {
 
-    private IRoleDao roleDao;
+    private final IRoleDao roleDao;
 
     public RoleService() throws SQLException
     {

@@ -1,6 +1,5 @@
 package com.example.NoteTrack.utils.interfaces.servicesInterface.gestionAuthentification;
 
-import com.example.NoteTrack.entities.Role;
 import com.example.NoteTrack.entities.User;
 import com.example.NoteTrack.utils.enumarations.RoleEnum;
 

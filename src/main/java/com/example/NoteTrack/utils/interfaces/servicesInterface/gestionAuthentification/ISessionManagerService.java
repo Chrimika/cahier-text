@@ -7,12 +7,12 @@ public interface ISessionManagerService {
 
     void loadSessions();
 
-    void addSession(String token, User user);
+    void addSession(String token, String username);
 
     void removeSession(String token);
 
 
     boolean isAuthenticated(String token);
 
-    User  getUtilisateurAuthentifier();
+    String  getUtilisateurAuthentifier();
 }
