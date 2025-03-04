@@ -34,9 +34,7 @@ public class HelloController {
     public void initialize() {
         String text;
         try {
-            UserService userService = new UserService(); // Consider using dependency injection
             User userAuth = UserService.getUtilisateurAuthentifier();
-            userAuth = userAuth == null ? testLogin(userService, inputUsername.getText(), inputPassword.getText()) : userAuth;
             text = userAuth != null ? "Utilisateur " + userAuth.getUsername() + " authentifié avec pour role: "+userAuth.getRoles().get(0).getRole(): "Problème d'authentification";
             count++;
         } catch (SQLException e) {
@@ -49,10 +47,8 @@ public class HelloController {
     protected void onHelloButtonClick() {
         String text;
         try {
-            UserService userService = new UserService(); // Consider using dependency injection
-            User userAuth = UserService.getUtilisateurAuthentifier();
-            userAuth = userAuth == null ? testLogin(userService, inputUsername.getText(), inputPassword.getText()) : userAuth;
-            text = userAuth != null ? "Utilisateur " + userAuth.getUsername() + " authentifié" : "Problème d'authentification";
+           User user = testLogin(new UserService(), inputUsername.getText(), inputPassword.getText());
+            text = user != null ? "Utilisateur " + user.getUsername() + " authentifié" : "Problème d'authentification";
             count++;
         } catch (SQLException e) {
             text = "Erreur: " + e.getMessage();

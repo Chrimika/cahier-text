@@ -1,9 +1,7 @@
 package com.example.NoteTrack.services;
 
-import com.example.NoteTrack.dao.ConnectionDao;
 import com.example.NoteTrack.dao.SeanceDao;
 import com.example.NoteTrack.entities.Seance;
-import com.example.NoteTrack.utils.config.DatabaseConfig;
 import com.example.NoteTrack.utils.interfaces.daoInterfaces.ISeanceDao;
 import com.example.NoteTrack.utils.interfaces.servicesInterface.ISeanceService;
 
